@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class AlunoService {
     @Autowired
     private RespostaModel rm;
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> cadastrarAluno(ClasseAluno aluno) {
         if (aluno.getNome().equals("")) {
             rm.setMensagem("O nome do aluno é obrigatório!");
@@ -49,16 +51,19 @@ public class AlunoService {
         return new ResponseEntity<>(ar.save(aluno), HttpStatus.CREATED);
     }
 
+    @Transactional(readOnly = true)
     public List<ClasseAluno> listarAlunos() {
         List<ClasseAluno> lista = ar.findAll();
         return lista;
     }
 
+    @Transactional(readOnly = true)
     public Optional<ClasseAluno> buscarAlunoById(Long id) {
         Optional<ClasseAluno> aluno = ar.findById(id);
         return aluno;
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> atualizarAluno(Long id, ClasseAluno aluno) {
 
         if ((aluno.getNome() == null || aluno.getNome().isBlank()) &&
@@ -95,6 +100,7 @@ public class AlunoService {
         }
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> deletarAluno(Long id) {
         Optional<ClasseAluno> optionalAluno = ar.findById(id);
 

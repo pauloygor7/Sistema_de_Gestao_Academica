@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class CursoService {
     @Autowired
     private AlunoRepository ar;
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> cadastrarCurso(ClasseCurso curso) {
         if (curso.getNome().equals("")) {
             rm.setMensagem("O nome do curso é obrigatório!");
@@ -36,16 +38,19 @@ public class CursoService {
         return new ResponseEntity<ClasseCurso>(sr.save(curso), HttpStatus.CREATED);
     }
 
+    @Transactional(readOnly = true)
     public List<ClasseCurso> listarCursos() {
         List<ClasseCurso> lista = sr.findAll();
         return lista;
     }
 
+    @Transactional(readOnly = true)
     public Optional<ClasseCurso> buscarCursoById(Long id) {
         Optional<ClasseCurso> curso = sr.findById(id);
         return curso;
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> deletarCursoById(Long id) {
         return sr.findById(id).map(curso -> {
                     if (ar.existsByCursoId(curso.getId())) {
