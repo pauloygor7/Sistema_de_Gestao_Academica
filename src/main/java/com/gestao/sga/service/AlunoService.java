@@ -95,4 +95,18 @@ public class AlunoService {
         }
     }
 
+    public ResponseEntity<?> deletarAluno(Long id) {
+        Optional<ClasseAluno> optionalAluno = ar.findById(id);
+
+        if (optionalAluno.isPresent()) {
+            ClasseAluno alunoExistente = optionalAluno.get();
+            ar.delete(alunoExistente);
+            rm.setMensagem("Aluno removido com sucesso!");
+            return new ResponseEntity<>(rm, HttpStatus.OK);
+        } else {
+            rm.setMensagem("Aluno não encontrado!");
+            return new ResponseEntity<>(rm, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

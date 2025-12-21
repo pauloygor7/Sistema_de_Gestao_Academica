@@ -36,4 +36,9 @@ public class AlunoController {
     public ResponseEntity<?> atualizarAluno(@PathVariable Long id, @Valid @RequestBody ClasseAluno aluno) {
         return as.atualizarAluno(id, aluno);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarAluno(@PathVariable Long id) {
+        return as.deletarAluno(id);
+    }
 }
