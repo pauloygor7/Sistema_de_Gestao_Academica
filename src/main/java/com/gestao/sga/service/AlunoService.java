@@ -4,7 +4,7 @@ import com.gestao.sga.model.ClasseAluno;
 import com.gestao.sga.model.ClasseCurso;
 import com.gestao.sga.model.RespostaModel;
 import com.gestao.sga.repository.AlunoRepository;
-import com.gestao.sga.repository.SgaRepository;
+import com.gestao.sga.repository.CursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class AlunoService {
     private AlunoRepository ar;
 
     @Autowired
-    private SgaRepository sr;
+    private CursoRepository cr;
 
     @Autowired
     private RespostaModel rm;
@@ -40,12 +40,12 @@ public class AlunoService {
         }
 
         Long cursoId = aluno.getCurso() != null ? aluno.getCurso().getId() : null;
-        if (cursoId == null || !sr.existsById(cursoId)) {
+        if (cursoId == null || !cr.existsById(cursoId)) {
             rm.setMensagem("Curso não encontrado para matrícula!");
             return new ResponseEntity<>(rm, HttpStatus.NOT_FOUND);
         }
 
-        ClasseCurso curso = sr.findById(cursoId).get();
+        ClasseCurso curso = cr.findById(cursoId).get();
         aluno.setCurso(curso);
 
         return new ResponseEntity<>(ar.save(aluno), HttpStatus.CREATED);
