@@ -53,4 +53,9 @@ public class AlunoService {
         List<ClasseAluno> lista = ar.findAll();
         return lista;
     }
+
+    public Optional<ClasseAluno> buscarAlunoById(Long id) {
+        Optional<ClasseAluno> aluno = ar.findById(id);
+        return aluno;
+    }
 }
