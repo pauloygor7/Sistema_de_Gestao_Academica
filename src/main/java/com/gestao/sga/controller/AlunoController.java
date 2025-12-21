@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/alunos")
 public class AlunoController {
@@ -16,5 +18,10 @@ public class AlunoController {
     @PostMapping
     public ResponseEntity<?> cadastrarAluno(@RequestBody ClasseAluno aluno) {
         return as.cadastrarAluno(aluno);
+    }
+
+    @GetMapping
+    public List<ClasseAluno> listarAlunos() {
+        return as.listarAlunos();
     }
 }
