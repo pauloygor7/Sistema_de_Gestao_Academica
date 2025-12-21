@@ -2,6 +2,7 @@ package com.gestao.sga.service;
 
 import com.gestao.sga.model.ClasseCurso;
 import com.gestao.sga.model.RespostaModel;
+import com.gestao.sga.repository.AlunoRepository;
 import com.gestao.sga.repository.SgaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class CursoService {
 
     @Autowired
     private RespostaModel rm;
+
+    @Autowired
+    private AlunoRepository ar;
 
     public ResponseEntity<?> cadastrarCurso(ClasseCurso curso) {
         if (curso.getNome().equals("")) {
@@ -40,5 +44,21 @@ public class CursoService {
     public Optional<ClasseCurso> buscarCursoById(Long id) {
         Optional<ClasseCurso> curso = sr.findById(id);
         return curso;
+    }
+
+    public ResponseEntity<?> deletarCursoById(Long id) {
+        return sr.findById(id).map(curso -> {
+                    if (ar.existsByCursoId(curso.getId())) {
+                        rm.setMensagem("Não é possível remover o curso, existem alunos vinculados!");
+                        return new ResponseEntity<>(rm, HttpStatus.CONFLICT);
+                    }
+
+                    sr.delete(curso);
+                    rm.setMensagem("Curso removido com sucesso!");
+                    return new ResponseEntity<>(rm, HttpStatus.OK);
+                }).orElseGet(() -> {
+            rm.setMensagem("Curso não encontrado!");
+            return new ResponseEntity<>(rm, HttpStatus.NOT_FOUND);
+        });
     }
 }

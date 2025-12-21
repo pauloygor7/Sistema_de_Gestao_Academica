@@ -33,4 +33,9 @@ public class CursoController {
     public Optional<ClasseCurso> buscarCursoById(@PathVariable Long id) {
         return cs.buscarCursoById(id);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarProdutoById(@PathVariable Long id) {
+        return cs.deletarCursoById(id);
+    }
 }
