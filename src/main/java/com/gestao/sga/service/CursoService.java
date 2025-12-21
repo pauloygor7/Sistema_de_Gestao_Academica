@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CursoService {
@@ -34,5 +35,10 @@ public class CursoService {
     public List<ClasseCurso> listarCursos() {
         List<ClasseCurso> lista = sr.findAll();
         return lista;
+    }
+
+    public Optional<ClasseCurso> buscarCursoById(Long id) {
+        Optional<ClasseCurso> curso = sr.findById(id);
+        return curso;
     }
 }
