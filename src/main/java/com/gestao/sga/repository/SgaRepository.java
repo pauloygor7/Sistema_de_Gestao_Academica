@@ -5,6 +5,4 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SgaRepository extends JpaRepository<ClasseCurso, Long> {
-
-    boolean existsByNome(String nome);
 }
