@@ -58,4 +58,41 @@ public class AlunoService {
         Optional<ClasseAluno> aluno = ar.findById(id);
         return aluno;
     }
+
+    public ResponseEntity<?> atualizarAluno(Long id, ClasseAluno aluno) {
+
+        if ((aluno.getNome() == null || aluno.getNome().isBlank()) &&
+                (aluno.getEmail() == null || aluno.getEmail().isBlank()) &&
+                (aluno.getMatricula() == null || aluno.getMatricula().isBlank()) &&
+                aluno.getCurso() == null) {
+
+            rm.setMensagem("É obrigatório preencher pelo menos um campo!");
+            return new ResponseEntity<>(rm, HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<ClasseAluno> optionalAluno = ar.findById(id);
+
+        if (optionalAluno.isPresent()) {
+            ClasseAluno alunoExistente = optionalAluno.get();
+
+            if (aluno.getNome() != null) {
+                alunoExistente.setNome(aluno.getNome());
+            }
+            if (aluno.getEmail() != null) {
+                alunoExistente.setEmail(aluno.getEmail());
+            }
+            if (aluno.getMatricula() != null) {
+                alunoExistente.setMatricula(aluno.getMatricula());
+            }
+            if (aluno.getCurso() != null) {
+                alunoExistente.setCurso(aluno.getCurso());
+            }
+
+            return new ResponseEntity<>(ar.save(alunoExistente), HttpStatus.OK);
+        } else {
+            rm.setMensagem("Aluno não encontrado");
+            return new ResponseEntity<>(rm, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

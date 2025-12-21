@@ -2,6 +2,7 @@ package com.gestao.sga.controller;
 
 import com.gestao.sga.model.ClasseAluno;
 import com.gestao.sga.service.AlunoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class AlunoController {
     private AlunoService as;
 
     @PostMapping
-    public ResponseEntity<?> cadastrarAluno(@RequestBody ClasseAluno aluno) {
+    public ResponseEntity<?> cadastrarAluno(@Valid @RequestBody ClasseAluno aluno) {
         return as.cadastrarAluno(aluno);
     }
 
@@ -29,5 +30,10 @@ public class AlunoController {
     @GetMapping("/{id}")
     public Optional<ClasseAluno> buscarAlunoById(@PathVariable Long id) {
         return as.buscarAlunoById(id);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> atualizarAluno(@PathVariable Long id, @Valid @RequestBody ClasseAluno aluno) {
+        return as.atualizarAluno(id, aluno);
     }
 }
