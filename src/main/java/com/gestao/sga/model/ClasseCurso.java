@@ -1,8 +1,7 @@
 package com.gestao.sga.model;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,14 +15,14 @@ public class ClasseCurso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Nonnull
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String nome;
 
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String sigla;
 
-    @Nullable
     @Column(nullable = true)
     private String descricao;
 }
