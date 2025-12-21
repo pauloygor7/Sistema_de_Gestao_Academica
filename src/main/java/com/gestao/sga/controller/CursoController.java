@@ -3,6 +3,7 @@ package com.gestao.sga.controller;
 import com.gestao.sga.model.ClasseCurso;
 import com.gestao.sga.model.RespostaModel;
 import com.gestao.sga.service.CursoService;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CursoController {
     private CursoService cs;
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody ClasseCurso curso) {
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody ClasseCurso curso) {
         return cs.cadastrarCurso(curso);
     }
 
